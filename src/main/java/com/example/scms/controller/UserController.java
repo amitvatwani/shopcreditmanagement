@@ -65,14 +65,6 @@ public class UserController {
 		return new ResponseEntity<String>("User Logged Out Successfully", HttpStatus.OK);
 	}
 	
-	@GetMapping("/admin/getCustomersToApprove")
-	public ResponseEntity<?> getCustomersToApprove(HttpSession session){
-		User user = (User) session.getAttribute("user");
-		if(user!=null && user.getUserRole().equals("admin"))
-			return new ResponseEntity<List<User>>(userService.getCustomersToApprove(), HttpStatus.OK);
-		return new ResponseEntity<String>("Error in processing request", HttpStatus.BAD_REQUEST);
-	}
-	
 	@PostMapping("/admin/approveUser/{userId}")
 	public ResponseEntity<?> approveUser(@PathVariable int userId, HttpSession session){
 		User user = (User) session.getAttribute("user");
@@ -105,6 +97,14 @@ public class UserController {
 		else {
 			return new ResponseEntity<String>("user Does not exists", HttpStatus.BAD_REQUEST);
 		}
+	}
+
+	@GetMapping("/admin/getCustomersToApprove")
+	public ResponseEntity<?> getCustomersToApprove(HttpSession session){
+		User user = (User) session.getAttribute("user");
+		if(user!=null && user.getUserRole().equals("admin"))
+			return new ResponseEntity<List<User>>(userService.getCustomersToApprove(), HttpStatus.OK);
+		return new ResponseEntity<String>("Error in processing request", HttpStatus.BAD_REQUEST);
 	}
 	
 	
